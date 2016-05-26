@@ -195,16 +195,16 @@ service postgresql restart
 
 # Nominatim munin
 # !! Look at the comments at the top of the nominatim_importlag file in the following and copy the setup section to a new file in: /etc/munin/plugin-conf.d/
-ln -s '/home/nominatim/Nominatim/munin/nominatim_importlag' '/etc/munin/plugins/nominatim_importlag'
-ln -s '/home/nominatim/Nominatim/munin/nominatim_query_speed' '/etc/munin/plugins/nominatim_query_speed'
-ln -s '/home/nominatim/Nominatim/munin/nominatim_nominatim_requests' '/etc/munin/plugins/nominatim_nominatim_requests'
+ln -sf '/home/nominatim/Nominatim/munin/nominatim_importlag' '/etc/munin/plugins/nominatim_importlag'
+ln -sf '/home/nominatim/Nominatim/munin/nominatim_query_speed' '/etc/munin/plugins/nominatim_query_speed'
+ln -sf '/home/nominatim/Nominatim/munin/nominatim_nominatim_requests' '/etc/munin/plugins/nominatim_nominatim_requests'
 
 
 # Needed to help postgres munin charts work
 apt-get -y install libdbd-pg-perl
 munin-node-configure --shell | grep postgres | sh
-service munin-reload restart
-
+#service munin-reload restart
+service munin-node restart
 
 # We will use the Nominatim user's homedir for the installation, so switch to that
 cd /home/${username}
@@ -280,17 +280,17 @@ echo "#	$(date)	Wikipedia data"
 
 # These large files are optional, and if present take a long time to process by ./utils/setup.php later in the script.
 # Download them if wanted by config and they are not already present.
-if test -n "${includeWikipedia}" -a ! -r data/wikipedia_article.sql.bin; then
-    sudo -u ${username} wget --output-document=data/wikipedia_article.sql.bin http://www.nominatim.org/data/wikipedia_article.sql.bin
-fi
-if test -n "${includeWikipedia}" -a ! -r data/wikipedia_redirect.sql.bin; then
-    sudo -u ${username} wget --output-document=data/wikipedia_redirect.sql.bin http://www.nominatim.org/data/wikipedia_redirect.sql.bin
-fi
+#if test -n "${includeWikipedia}" -a ! -r data/wikipedia_article.sql.bin; then
+#    sudo -u ${username} wget --output-document=data/wikipedia_article.sql.bin http://www.nominatim.org/data/wikipedia_article.sql.bin
+#fi
+#if test -n "${includeWikipedia}" -a ! -r data/wikipedia_redirect.sql.bin; then
+#    sudo -u ${username} wget --output-document=data/wikipedia_redirect.sql.bin http://www.nominatim.org/data/wikipedia_redirect.sql.bin
+#fi
 
 # Add UK postcode support (centroids only, not house number level)
-if test ! -r data/gb_postcode_data.sql.gz; then
-    sudo -u ${username} wget --output-document=data/gb_postcode_data.sql.gz http://www.nominatim.org/data/gb_postcode_data.sql.gz
-fi
+#if test ! -r data/gb_postcode_data.sql.gz; then
+#    sudo -u ${username} wget --output-document=data/gb_postcode_data.sql.gz http://www.nominatim.org/data/gb_postcode_data.sql.gz
+#fi
 
 # http://stackoverflow.com/questions/8546759/how-to-check-if-a-postgres-user-exists
 # Creating the importer account in Postgres
