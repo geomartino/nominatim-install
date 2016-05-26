@@ -170,6 +170,8 @@ apt-get -y install gcc proj-bin libgeos-c1 libgeos++-dev
 apt-get -y install php5 php-pear php5-pgsql php5-json php-db
 apt-get -y install postgresql postgis postgresql-contrib postgresql-9.3-postgis-2.1 postgresql-server-dev-9.3
 apt-get -y install libprotobuf-c0-dev protobuf-c-compiler
+apt-get -y install munin
+apt-get -y install cmake
 
 # Additional packages
 # bc is needed in configPostgresql.sh
@@ -229,9 +231,13 @@ fi
 # Compile Nominatim software
 # http://wiki.openstreetmap.org/wiki/Nominatim/Installation#Compiling_the_Source
 echo "#	$(date)	Compiling Nominatim software"
-sudo -u ${username} ./autogen.sh
-sudo -u ${username} ./configure
-sudo -u ${username} make
+#sudo -u ${username} ./autogen.sh
+#sudo -u ${username} ./configure
+#sudo -u ${username} make
+mkdir build
+cd build
+cmake ..
+make
 
 # Customization of the Installation
 # http://wiki.openstreetmap.org/wiki/Nominatim/Installation#Customization_of_the_Installation
